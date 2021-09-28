@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import './App.css';
@@ -36,25 +36,21 @@ if (token) {
   }
 }
 
-class App extends Component {
-  render() {
-    return (
-      <MuiThemeProvider theme={theme}>
-        <Provider store={store}>
-          <Router>
-            <Navbar />
-            <div className="container">
-              <Switch>
-                <Route exact path="/" component={home} />
-                <AuthRoute exact path="/login" component={login} />
-                <AuthRoute exact path="/signup" component={signup} />
-              </Switch>
-            </div>
-          </Router>
-        </Provider>
-      </MuiThemeProvider>
-    );
-  }
-}
+const App = () => (
+  <MuiThemeProvider theme={theme}>
+    <Provider store={store}>
+      <Router>
+        <Navbar />
+        <div className="container">
+          <Switch>
+            <Route exact path="/" component={home} />
+            <AuthRoute exact path="/login" component={login} />
+            <AuthRoute exact path="/signup" component={signup} />
+          </Switch>
+        </div>
+      </Router>
+    </Provider>
+  </MuiThemeProvider>
+);
 
 export default App;

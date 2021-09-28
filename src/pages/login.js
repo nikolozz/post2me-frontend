@@ -27,11 +27,10 @@ class login extends Component {
   // eslint-disable-next-line react/no-deprecated
   componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors) {
-      return {
+      this.setState({
         errors: nextProps.UI.errors,
-      };
+      });
     }
-    return null;
   }
 
   handleSubmit(event) {

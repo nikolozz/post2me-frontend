@@ -1,8 +1,16 @@
-import { SET_USER, SET_UNAUTHENTICATED, SET_ERRORS, CLEAR_ERRORS, LOADING_UI } from '../types';
+import {
+  SET_USER,
+  SET_UNAUTHENTICATED,
+  SET_ERRORS,
+  CLEAR_ERRORS,
+  LOADING_UI,
+  LOADING_USER,
+} from '../types';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 
 export const getUserData = (id) => (dispatch) => {
+  dispatch({ type: LOADING_USER });
   axios
     .get(`${process.env.REACT_APP_API_URL}/users/${id}`)
     .then((res) => {

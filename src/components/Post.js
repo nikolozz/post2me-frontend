@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -20,40 +20,34 @@ const styles = {
   },
 };
 
-class Post extends Component {
-  render() {
-    dayjs.extend(relativeTime);
-    const {
-      classes,
-      post: { author, content, createdAt },
-    } = this.props;
-    return (
-      <Card className={classes.card}>
-        {author?.avatar ? (
-          <CardMedia image={author?.avatar?.url} title="Profile image" className={classes.image} />
-        ) : (
-          <div></div>
-        )}
-        <CardContent className={classes.content}>
-          <Typography
-            variant="h5"
-            component={Link}
-            to={`/users/${author.username}`}
-            color="secondary"
-          >
-            {author.username}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {dayjs(createdAt).fromNow()}
-          </Typography>
-          <Typography variant="body1" color="textSecondary">
-            {content}
-          </Typography>
-        </CardContent>
-      </Card>
-    );
-  }
-}
+const Post = ({ classes, post: { author, content, createdAt } }) => {
+  dayjs.extend(relativeTime);
+  return (
+    <Card className={classes.card}>
+      {author?.avatar ? (
+        <CardMedia image={author?.avatar?.url} title="Profile image" className={classes.image} />
+      ) : (
+        <div></div>
+      )}
+      <CardContent className={classes.content}>
+        <Typography
+          variant="h5"
+          component={Link}
+          to={`/users/${author.username}`}
+          color="secondary"
+        >
+          {author.username}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          {dayjs(createdAt).fromNow()}
+        </Typography>
+        <Typography variant="body1" color="textSecondary">
+          {content}
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+};
 
 Post.propTypes = {
   classes: PropTypes.any,
