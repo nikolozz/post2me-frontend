@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import Post from '../components/Post';
 import Profile from '../components/Profile';
+import { connect } from 'react-redux';
+import { loadingPosts } from '../redux/actions/dataActions';
 
-const home = () => {
-  const [posts, setPosts] = useState([]);
-
+const home = ({ loadingPosts, posts, loading }) => {
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/posts?limit=25&offset=0`)
-      .then((res) => res.json())
-      .then((body) => setPosts(body));
-  }, [posts.prop]);
+    if (loading) {
+      loadingPosts();
+    }
+  }, [posts]);
 
   const recentPostsMarkup = posts ? (
     posts.map((post) => <Post key={post.id} post={post}></Post>)
@@ -31,4 +31,13 @@ const home = () => {
   );
 };
 
-export default home;
+const mapStateToProps = (state) => ({
+  posts: state.data.posts,
+  loading: state.data.loading,
+});
+
+const mapActionsToProps = {
+  loadingPosts,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(home);
