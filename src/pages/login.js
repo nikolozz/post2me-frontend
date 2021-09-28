@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+
+// Redux stuff
+import { connect } from 'react-redux';
+import { loginUser } from '../redux/actions/userActions';
 
 import { withStyles, Typography, TextField, Button, CircularProgress } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
@@ -21,20 +24,21 @@ class login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  static getDerivedStateFromProps(nextProps) {
+    if (nextProps.UI.errors) {
+      return {
+        errors: nextProps.UI.errors,
+      };
+    }
+  }
+
   handleSubmit(event) {
     event.preventDefault();
-    this.setState({ loading: true });
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/login`, {
-        username: this.state.username,
-        password: this.state.password,
-      })
-      .then((res) => {
-        localStorage.setItem('authentication', `Bearer ${res.headers['authentication']}`);
-        this.setState({ loading: true });
-        this.props.history.push('/');
-      })
-      .catch((err) => this.setState({ errors: err, loading: false }));
+    const userDate = {
+      username: this.state.username,
+      password: this.state.password,
+    };
+    this.props.loginUser(userDate, this.props.history);
   }
 
   handleChange(event) {
@@ -44,8 +48,11 @@ class login extends Component {
   }
 
   render() {
-    const { classes } = this.props;
-    const { errors, email, password, loading } = this.state;
+    const {
+      classes,
+      UI: { loading },
+    } = this.props;
+    const { errors, username, password } = this.state;
     return (
       <div>
         <Grid container className={classes.form}>
@@ -58,10 +65,10 @@ class login extends Component {
               <TextField
                 id="username"
                 name="username"
-                type="email"
+                type="text"
                 label="Username"
                 className={classes.textField}
-                value={email}
+                value={username}
                 onChange={this.handleChange}
                 fullWidth
               />
@@ -105,6 +112,18 @@ class login extends Component {
 login.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.any,
+  loginUser: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(login);
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+});
+
+const mapActionsToProps = {
+  loginUser,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(login));
