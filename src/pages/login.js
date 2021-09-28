@@ -24,12 +24,14 @@ class login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  static getDerivedStateFromProps(nextProps) {
+  // eslint-disable-next-line react/no-deprecated
+  componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors) {
       return {
         errors: nextProps.UI.errors,
       };
     }
+    return null;
   }
 
   handleSubmit(event) {

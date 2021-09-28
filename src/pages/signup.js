@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+
+// Redux
+import { connect } from 'react-redux';
+import { signupUser } from '../redux/actions/userActions';
 
 import { withStyles, Typography, TextField, Button, CircularProgress } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
@@ -15,7 +18,6 @@ class signup extends Component {
       username: '',
       password: '',
       confirmPassword: '',
-      loading: false,
       errors: {},
     };
     this.handleChange = this.handleChange.bind(this);
@@ -30,13 +32,7 @@ class signup extends Component {
       password: this.state.password,
       confirmPassword: this.state.confirmPassword,
     };
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/register`, newUserData)
-      .then(() => {
-        this.setState({ loading: true });
-        this.props.history.push('/login');
-      })
-      .catch((err) => this.setState({ errors: err, loading: false }));
+    this.props.signupUser(newUserData, this.props.history);
   }
 
   handleChange(event) {
@@ -46,8 +42,12 @@ class signup extends Component {
   }
 
   render() {
-    const { classes } = this.props;
-    const { errors, email, password, confirmPassword, loading } = this.state;
+    const {
+      classes,
+      UI: { loading },
+    } = this.props;
+    const { errors, email, password, confirmPassword } = this.state;
+
     return (
       <div>
         <Grid container className={classes.form}>
@@ -117,6 +117,12 @@ class signup extends Component {
 signup.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.any,
+  signupUser: PropTypes.func.isRequired,
+  UI: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(signup);
+const mapStateToProps = (state) => ({
+  UI: state.UI,
+});
+
+export default connect(mapStateToProps, { signupUser })(withStyles(styles)(signup));
