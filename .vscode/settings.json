@@ -1,5 +1,2 @@
 {
-  "terminal.integrated.commandsToSkipShell": [
-    "editor.codeActionsOnSave: {     \"source.fixAll.eslint\": true}"
-  ]
 }

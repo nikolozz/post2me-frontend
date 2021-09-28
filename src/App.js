@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { createTheme } from '@material-ui/core/styles';
-import { indigo, blue } from '@material-ui/core/colors';
 // Components
 import Navbar from './components/Navbar';
 // Pages
@@ -13,13 +12,16 @@ import signup from './pages/signup';
 
 const theme = createTheme({
   palette: {
-    type: 'dark',
+    type: 'light',
     primary: {
-      main: indigo[500],
+      main: '#3f51b5',
     },
     secondary: {
-      main: blue[500],
+      main: '#f50057',
     },
+  },
+  typography: {
+    useNextVariants: true,
   },
 });
 

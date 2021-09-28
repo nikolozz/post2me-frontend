@@ -27,7 +27,6 @@ class Post extends Component {
       classes,
       post: { author, content, createdAt },
     } = this.props;
-    console.log(classes, this.props);
     return (
       <Card className={classes.card}>
         {author?.avatar ? (
