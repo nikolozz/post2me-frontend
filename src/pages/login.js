@@ -6,29 +6,7 @@ import axios from 'axios';
 import { withStyles, Typography, TextField, Button, CircularProgress } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 
-const styles = {
-  form: {
-    textAlign: 'center',
-  },
-  pageTitle: {
-    margin: '5% auto',
-  },
-  textField: {
-    margin: '10px auto',
-  },
-  button: {
-    marginTop: 20,
-    position: 'relative',
-  },
-  customError: {
-    color: 'red',
-    fontSize: '0.8rem',
-    marginTop: 10,
-  },
-  progress: {
-    position: 'absolute',
-  },
-};
+const styles = (theme) => ({ ...theme.stylesObject });
 
 class login extends Component {
   constructor() {
@@ -51,7 +29,8 @@ class login extends Component {
         username: this.state.username,
         password: this.state.password,
       })
-      .then(() => {
+      .then((res) => {
+        localStorage.setItem('authentication', `Bearer ${res.headers['authentication']}`);
         this.setState({ loading: true });
         this.props.history.push('/');
       })
