@@ -1,10 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import IconButton from '../util/IconButton';
+
 import { withStyles } from '@material-ui/core/styles';
 import { Card, CardContent, CardMedia, Typography } from '@material-ui/core/';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import dayjs from 'dayjs';
+import ChatIcon from '@material-ui/icons/Chat';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+
+import { connect } from 'react-redux';
+import { likePost, unlikePost } from '../redux/actions/dataActions';
 
 const styles = {
   card: {
@@ -20,8 +28,38 @@ const styles = {
   },
 };
 
-const Post = ({ classes, post: { author, content, createdAt } }) => {
+const Post = ({
+  classes,
+  post: { id, author, content, createdAt, votes, comments },
+  user,
+  likePost,
+  unlikePost,
+}) => {
   dayjs.extend(relativeTime);
+
+  const likedPost = () => {
+    if (!user?.votes) {
+      return;
+    }
+    return user.votes.find((like) => like.post.id === id);
+  };
+
+  const likeButton = !user.authenticated ? (
+    <IconButton tip="like">
+      <Link to="/login">
+        <FavoriteBorderIcon></FavoriteBorderIcon>
+      </Link>
+    </IconButton>
+  ) : likedPost(id) ? (
+    <IconButton onClick={() => unlikePost(id)} tip="Unlike" color="primary">
+      <FavoriteIcon></FavoriteIcon>
+    </IconButton>
+  ) : (
+    <IconButton onClick={() => likePost(id)} tip="Like" color="primary">
+      <FavoriteBorderIcon></FavoriteBorderIcon>
+    </IconButton>
+  );
+
   return (
     <Card className={classes.card}>
       {author?.avatar ? (
@@ -44,6 +82,12 @@ const Post = ({ classes, post: { author, content, createdAt } }) => {
         <Typography variant="body1" color="textSecondary">
           {content}
         </Typography>
+        {likeButton}
+        <span>{votes?.length} Likes</span>
+        <IconButton tip="Comments">
+          <ChatIcon></ChatIcon>
+        </IconButton>
+        <span>{comments?.length} comments</span>
       </CardContent>
     </Card>
   );
@@ -52,6 +96,7 @@ const Post = ({ classes, post: { author, content, createdAt } }) => {
 Post.propTypes = {
   classes: PropTypes.any,
   post: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     author: PropTypes.shape({
       username: PropTypes.string,
       avatar: PropTypes.shape({
@@ -60,7 +105,16 @@ Post.propTypes = {
     }),
     content: PropTypes.string,
     createdAt: PropTypes.date,
+    votes: PropTypes.object,
+    comments: PropTypes.array,
   }),
+  user: PropTypes.object,
+  likePost: PropTypes.func.isRequired,
+  unlikePost: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(Post);
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps, { likePost, unlikePost })(withStyles(styles)(Post));

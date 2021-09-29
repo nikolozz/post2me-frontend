@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Grid } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import Post from '../components/Post';
 import Profile from '../components/Profile';
+
+import { Grid } from '@material-ui/core';
+
 import { connect } from 'react-redux';
 import { loadingPosts } from '../redux/actions/dataActions';
 
-const home = ({ loadingPosts, posts }) => {
+const home = ({ data: { posts }, loadingPosts }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -34,9 +37,13 @@ const home = ({ loadingPosts, posts }) => {
   );
 };
 
+home.propTypes = {
+  data: PropTypes.object.isRequired,
+  loadingPosts: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = (state) => ({
-  posts: state.data.posts,
-  loading: state.data.loading,
+  data: state.data,
 });
 
 const mapActionsToProps = {
