@@ -75,11 +75,11 @@ const Profile = ({ classes, user: { id, username, avatar, authenticated }, loadi
         <Typography variant="body2" align="center">
           No profile found, please login
         </Typography>
-        <div className={classes.button}>
+        <div className={classes.buttons}>
           <Button variant="contained" color="primary" component={Link} to="/login">
             Log In
           </Button>
-          <Button variant="contained" color="secondary" component={Link} to="/login">
+          <Button variant="contained" color="secondary" component={Link} to="/signup">
             Sign Up
           </Button>
         </div>

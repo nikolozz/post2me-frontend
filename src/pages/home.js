@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid } from '@material-ui/core';
 import Post from '../components/Post';
 import Profile from '../components/Profile';
 import { connect } from 'react-redux';
 import { loadingPosts } from '../redux/actions/dataActions';
 
-const home = ({ loadingPosts, posts, loading }) => {
+const home = ({ loadingPosts, posts }) => {
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     if (loading) {
       loadingPosts();
+      setLoading(false);
     }
   }, [posts]);
 

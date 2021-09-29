@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -11,104 +11,69 @@ import { Grid } from '@material-ui/core';
 
 const styles = (theme) => ({ ...theme.stylesObject });
 
-class login extends Component {
-  constructor() {
-    super();
-    this.state = {
-      username: '',
-      password: '',
-      loading: false,
-      errors: {},
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+const login = ({ loginUser, classes, UI: { loading, errors }, history }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  // eslint-disable-next-line react/no-deprecated
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
-      this.setState({
-        errors: nextProps.UI.errors,
-      });
-    }
-  }
-
-  handleSubmit(event) {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const userDate = {
-      username: this.state.username,
-      password: this.state.password,
+    const userData = {
+      username,
+      password,
     };
-    this.props.loginUser(userDate, this.props.history);
-  }
+    console.log(userData);
+    loginUser(userData, history);
+  };
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
-
-  render() {
-    const {
-      classes,
-      UI: { loading },
-    } = this.props;
-    const { errors, username, password } = this.state;
-    return (
-      <div>
-        <Grid container className={classes.form}>
-          <Grid item sm />
-          <Grid item sm>
-            <Typography variant="h3" className={classes.pageTitle}>
+  return (
+    <div>
+      <Grid container className={classes.form}>
+        <Grid item sm />
+        <Grid item sm>
+          <Typography variant="h3" className={classes.pageTitle}>
+            Login
+          </Typography>
+          <form noValidate onSubmit={handleSubmit}>
+            <TextField
+              id="username"
+              name="username"
+              type="text"
+              label="Username"
+              className={classes.textField}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              fullWidth
+            />
+            <TextField
+              id="password"
+              name="password"
+              type="password"
+              label="Password"
+              className={classes.textField}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              fullWidth
+            />
+            {errors?.message && (
+              <Typography variant="body2" className={classes.customError}>
+                Wrong Credentials
+              </Typography>
+            )}
+            <Button type="submit" variant="contained" className={classes.button} disabled={loading}>
               Login
-            </Typography>
-            <form noValidate onSubmit={this.handleSubmit}>
-              <TextField
-                id="username"
-                name="username"
-                type="text"
-                label="Username"
-                className={classes.textField}
-                value={username}
-                onChange={this.handleChange}
-                fullWidth
-              />
-              <TextField
-                id="password"
-                name="password"
-                type="password"
-                label="Password"
-                className={classes.textField}
-                value={password}
-                onChange={this.handleChange}
-                fullWidth
-              />
-              {errors.message && (
-                <Typography variant="body2" className={classes.customError}>
-                  Wrong Credentials
-                </Typography>
-              )}
-              <Button
-                type="submit"
-                variant="contained"
-                className={classes.button}
-                disabled={loading}
-              >
-                Login
-                {loading && <CircularProgress size={30} className={classes.progress} />}
-              </Button>
-              <br />
-              <small>
-                Dont have an account ? sign up <Link to="/signup">here</Link>
-              </small>
-            </form>
-          </Grid>
-          <Grid item sm />
+              {loading && <CircularProgress size={30} className={classes.progress} />}
+            </Button>
+            <br />
+            <small>
+              Dont have an account ? sign up <Link to="/signup">here</Link>
+            </small>
+          </form>
         </Grid>
-      </div>
-    );
-  }
-}
+        <Grid item sm />
+      </Grid>
+    </div>
+  );
+};
 
 login.propTypes = {
   classes: PropTypes.object.isRequired,
