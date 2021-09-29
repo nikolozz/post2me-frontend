@@ -1,10 +1,9 @@
 import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import IconButton from '../util/IconButton';
 // MUI
 import {
-  Tooltip,
   withStyles,
-  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -33,11 +32,9 @@ const EditDetails = ({ editUserDetails, classes, user: { bio } }) => {
 
   return (
     <Fragment>
-      <Tooltip title="Edit details">
-        <IconButton onClick={() => setOpen(true)} className={classes.buttons}>
-          <EditIcon color="primary"></EditIcon>
-        </IconButton>
-      </Tooltip>
+      <IconButton tip="Edit details" onClick={() => setOpen(true)} btnClassName={classes.buttons}>
+        <EditIcon color="primary"></EditIcon>
+      </IconButton>
       <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
         <DialogTitle>Edit Your Details</DialogTitle>
         <DialogContent>

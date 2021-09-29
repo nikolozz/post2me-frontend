@@ -2,10 +2,10 @@ export default {
   palette: {
     type: 'light',
     primary: {
-      main: '#3f51b5',
+      main: '#303f9f',
     },
     secondary: {
-      main: '#f50057',
+      main: '#3f51b5',
     },
   },
   typography: {

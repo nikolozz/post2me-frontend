@@ -2,16 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import EditDetails from '../components/EditDetails';
+import IconButton from '../util/IconButton';
 // MUI
-import {
-  withStyles,
-  Button,
-  Paper,
-  Link as MuiLink,
-  Typography,
-  IconButton,
-  Tooltip,
-} from '@material-ui/core';
+import { withStyles, Button, Paper, Link as MuiLink, Typography } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import KeyboardReturn from '@material-ui/icons/KeyboardReturn';
 // Redux
@@ -97,11 +90,13 @@ const Profile = ({
           <div className="image-wrapper">
             <img src={avatar?.url || '/no-avatar.png'} alt="profile" className="profile-image" />
             <input type="file" id="imageInput" onChange={handleImageChange} hidden="hidden" />
-            <Tooltip title="Edit profile picture">
-              <IconButton onClick={handleEditPicture} className="button">
-                <EditIcon color="primary" />
-              </IconButton>
-            </Tooltip>
+            <IconButton
+              tip="Edit profile picture"
+              onClick={handleEditPicture}
+              btnClassName="button"
+            >
+              <EditIcon color="primary"></EditIcon>
+            </IconButton>
           </div>
           <hr />
           <div className="profile-details">
@@ -111,12 +106,10 @@ const Profile = ({
             <hr />
             {bio && <Typography variant="body2">{bio}</Typography>}
           </div>
-          <Tooltip title="Logout">
-            <IconButton onClick={handleLogount}>
-              <KeyboardReturn color="primary"></KeyboardReturn>
-            </IconButton>
-          </Tooltip>
-          <EditDetails></EditDetails>
+          <IconButton tip="Logout" onClick={handleLogount}>
+            <KeyboardReturn color="primary"></KeyboardReturn>
+          </IconButton>
+          <EditDetails />
         </div>
       </Paper>
     ) : (
