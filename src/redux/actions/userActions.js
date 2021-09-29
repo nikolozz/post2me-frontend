@@ -6,13 +6,12 @@ import {
   LOADING_UI,
   LOADING_USER,
 } from '../types';
-import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 
-export const getUserData = (id) => (dispatch) => {
+export const getUserData = () => (dispatch) => {
   dispatch({ type: LOADING_USER });
   axios
-    .get(`${process.env.REACT_APP_API_URL}/users/${id}`)
+    .get(`${process.env.REACT_APP_API_URL}/authenticate`)
     .then((res) => {
       dispatch({ type: SET_USER, payload: res.data });
     })
@@ -25,10 +24,9 @@ export const loginUser = (userData, history) => (dispatch) => {
     .post(`${process.env.REACT_APP_API_URL}/login`, userData)
     .then((res) => {
       const bearerToken = `Bearer ${res.headers['authentication']}`;
-      const { id } = jwtDecode(res.headers['authentication']);
       localStorage.setItem('authentication', bearerToken);
       axios.defaults.headers.common['Authorization'] = bearerToken;
-      dispatch(getUserData(id));
+      dispatch(getUserData());
       history.push('/');
       dispatch({ type: CLEAR_ERRORS });
     })
@@ -50,4 +48,20 @@ export const logoutUser = () => (dispatch) => {
   localStorage.removeItem('authentication');
   delete axios.defaults.headers.common['Authorization'];
   dispatch({ type: SET_UNAUTHENTICATED });
+};
+
+export const uploadImage = (formData) => (dispatch) => {
+  dispatch({ type: LOADING_USER });
+  axios
+    .post(`${process.env.REACT_APP_API_URL}/users/add-avatar`, formData)
+    .then(() => dispatch(getUserData()))
+    .catch((err) => dispatch({ type: SET_ERRORS, payload: err }));
+};
+
+export const editUserDetails = (userDetails) => (dispatch) => {
+  dispatch({ type: LOADING_USER });
+  axios
+    .patch(`${process.env.REACT_APP_API_URL}/users`, userDetails)
+    .then(() => dispatch(getUserData()))
+    .catch(console.log);
 };

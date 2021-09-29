@@ -21,7 +21,6 @@ const login = ({ loginUser, classes, UI: { loading, errors }, history }) => {
       username,
       password,
     };
-    console.log(userData);
     loginUser(userData, history);
   };
 
