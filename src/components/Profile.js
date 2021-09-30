@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import EditDetails from '../components/EditDetails';
+import EditDetails from './EditDetails';
 import IconButton from '../util/IconButton';
 // MUI
 import { withStyles, Button, Paper, Link as MuiLink, Typography } from '@material-ui/core';

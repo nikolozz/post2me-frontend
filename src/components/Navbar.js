@@ -2,11 +2,11 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import IconButton from '../util/IconButton';
+import AddPost from './AddPost';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
 import HomeIcon from '@material-ui/icons/Home';
 import NotificationIcon from '@material-ui/icons/Notifications';
 
@@ -18,9 +18,7 @@ const Navbar = ({ authenticated }) => {
       <Toolbar className="nav-container">
         {authenticated ? (
           <Fragment>
-            <IconButton tip="Post">
-              <AddIcon color="primary" />
-            </IconButton>
+            <AddPost />
             <Link to="/">
               <IconButton tip="Home">
                 <HomeIcon color="primary" />

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import IconButton from '../util/IconButton';
-import DeletePost from '../components/DeletePost';
+import DeletePost from './DeletePost';
 
 import { withStyles } from '@material-ui/core/styles';
 import { Card, CardContent, CardMedia, Typography } from '@material-ui/core/';
@@ -112,7 +112,7 @@ Post.propTypes = {
     }),
     content: PropTypes.string,
     createdAt: PropTypes.date,
-    votes: PropTypes.object,
+    votes: PropTypes.array,
     comments: PropTypes.array,
   }),
   user: PropTypes.object,
