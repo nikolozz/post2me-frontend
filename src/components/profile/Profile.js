@@ -2,14 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import EditDetails from './EditDetails';
-import IconButton from '../util/IconButton';
+import IconButton from '../../util/IconButton';
 // MUI
 import { withStyles, Button, Paper, Link as MuiLink, Typography } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import KeyboardReturn from '@material-ui/icons/KeyboardReturn';
 // Redux
 import { connect } from 'react-redux';
-import { logoutUser, uploadImage } from '../redux/actions/userActions';
+import { logoutUser, uploadImage } from '../../redux/actions/userActions';
 
 const styles = (theme) => ({
   paper: {

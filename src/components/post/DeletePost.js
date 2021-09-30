@@ -1,12 +1,12 @@
 import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import IconButton from '../util/IconButton';
+import IconButton from '../../util/IconButton';
 
 import { withStyles, Button, Dialog, DialogTitle, DialogActions } from '@material-ui/core';
 import Delete from '@material-ui/icons/Delete';
 
 import { connect } from 'react-redux';
-import { deletePost } from '../redux/actions/dataActions';
+import { deletePost } from '../../redux/actions/dataActions';
 
 const styles = {
   deleteButton: {

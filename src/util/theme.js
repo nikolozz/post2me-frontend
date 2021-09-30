@@ -12,6 +12,14 @@ export default {
     useNextVariants: true,
   },
   stylesObject: {
+    invisibleSeparator: {
+      border: 'none',
+      margin: 4,
+    },
+    visibleSeparator: {
+      border: 'none',
+      margin: 4,
+    },
     form: {
       textAlign: 'center',
     },

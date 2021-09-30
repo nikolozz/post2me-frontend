@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import IconButton from '../util/IconButton';
-import AddPost from './AddPost';
+import IconButton from '../../util/IconButton';
+import AddPost from '../post/AddPost';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';

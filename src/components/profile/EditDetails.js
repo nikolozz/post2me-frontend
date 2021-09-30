@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import IconButton from '../util/IconButton';
+import IconButton from '../../util/IconButton';
 // MUI
 import {
   withStyles,
@@ -14,7 +14,7 @@ import {
 import EditIcon from '@material-ui/icons/Edit';
 // Redux
 import { connect } from 'react-redux';
-import { editUserDetails } from '../redux/actions/userActions';
+import { editUserDetails } from '../../redux/actions/userActions';
 
 const styles = (theme) => ({ ...theme.stylesObject });
 

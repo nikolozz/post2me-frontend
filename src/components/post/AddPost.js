@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import IconButton from '../util/IconButton';
+import IconButton from '../../util/IconButton';
 
 import {
   withStyles,
@@ -15,7 +15,7 @@ import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { connect } from 'react-redux';
-import { createPost } from '../redux/actions/dataActions';
+import { createPost } from '../../redux/actions/dataActions';
 
 const styles = (theme) => ({
   ...theme.stylesObject,

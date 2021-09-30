@@ -1,9 +1,10 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import IconButton from '../util/IconButton';
+import IconButton from '../../util/IconButton';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
 import LikeButton from './LikeButton';
+import Comments from './Comments';
 
 import {
   withStyles,
@@ -18,14 +19,10 @@ import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
 import ChatIcon from '@material-ui/icons/Chat';
 
 import { connect } from 'react-redux';
-import { getPost } from '../redux/actions/dataActions';
+import { getPost } from '../../redux/actions/dataActions';
 
 const styles = (theme) => ({
   ...theme.stylesObject,
-  invisibleSeparator: {
-    border: 'none',
-    margin: 4,
-  },
   profileImage: {
     maxWidth: 200,
     height: 200,
@@ -89,6 +86,8 @@ const PostDialog = ({ postId, post, classes, getPost }) => {
           <ChatIcon />
         </IconButton>
         <span>{post?.comments?.length} Comments</span>
+        <hr classNam={classes.visibleSeparator} />
+        <Comments comments={post?.comments} />
       </Grid>
     </Grid>
   );

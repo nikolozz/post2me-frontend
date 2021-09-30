@@ -12,7 +12,7 @@ import { logoutUser, getUserData } from './redux/actions/userActions';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { createTheme } from '@material-ui/core/styles';
 // Components
-import Navbar from './components/Navbar';
+import Navbar from './components/layout/Navbar';
 // Pages
 import home from './pages/home';
 import login from './pages/login';

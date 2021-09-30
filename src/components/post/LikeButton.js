@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import IconButton from '../util/IconButton';
+import IconButton from '../../util/IconButton';
 import { Link } from 'react-router-dom';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 import { connect } from 'react-redux';
-import { likePost, unlikePost } from '../redux/actions/dataActions';
+import { likePost, unlikePost } from '../../redux/actions/dataActions';
 
 const LikeButton = ({ likePost, unlikePost, user, postId }) => {
   const likedPost = () => {
