@@ -17,8 +17,9 @@ export default {
       margin: 4,
     },
     visibleSeparator: {
-      border: 'none',
-      margin: 4,
+      width: '100%',
+      borderBottom: '1px solid rgba(0,0,0,0.1)',
+      marginBottom: '20px',
     },
     form: {
       textAlign: 'center',

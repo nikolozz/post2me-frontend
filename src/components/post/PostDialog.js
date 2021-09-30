@@ -87,7 +87,7 @@ const PostDialog = ({ postId, post, classes, getPost }) => {
         </IconButton>
         <span>{post?.comments?.length} Comments</span>
         <hr classNam={classes.visibleSeparator} />
-        <Comments comments={post?.comments} />
+        {post?.comments && <Comments comments={post.comments} postId={post.id} />}
       </Grid>
     </Grid>
   );

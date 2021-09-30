@@ -6,6 +6,7 @@ import {
   SET_ERRORS,
   ADD_POST,
   SET_POST,
+  SUBMIT_COMMENT,
 } from '../types';
 import axios from 'axios';
 
@@ -60,4 +61,10 @@ export const deletePost = (postId) => (dispatch) => {
   axios.delete(`${apiUrl}/posts/${postId}`).then(() => {
     dispatch({ type: DELETE_POST, payload: postId });
   });
+};
+
+export const submitComment = (commentData) => async (dispatch) => {
+  const { data } = await axios.post(`${apiUrl}/comments/create`, commentData);
+  const comments = await axios.get(`${apiUrl}/comments/${data.post.id}`);
+  dispatch({ type: SUBMIT_COMMENT, payload: comments.data });
 };
