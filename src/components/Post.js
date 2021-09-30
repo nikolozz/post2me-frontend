@@ -5,15 +5,14 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import IconButton from '../util/IconButton';
 import DeletePost from './DeletePost';
+import PostDialog from './PostDialog';
+import LikeButton from './LikeButton';
 
 import { withStyles } from '@material-ui/core/styles';
 import { Card, CardContent, CardMedia, Typography } from '@material-ui/core/';
 import ChatIcon from '@material-ui/icons/Chat';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 import { connect } from 'react-redux';
-import { likePost, unlikePost } from '../redux/actions/dataActions';
 
 const styles = {
   card: {
@@ -32,35 +31,12 @@ const styles = {
 
 const Post = ({
   classes,
-  post: { id, author, content, createdAt, votes, comments },
+  post: { id, author, title, content, createdAt, votes, comments },
   user,
-  likePost,
-  unlikePost,
 }) => {
   dayjs.extend(relativeTime);
 
-  const likedPost = () => {
-    if (!user?.votes) {
-      return;
-    }
-    return user.votes.find((like) => like.post.id === id);
-  };
-
-  const likeButton = !user.authenticated ? (
-    <IconButton tip="like">
-      <Link to="/login">
-        <FavoriteBorderIcon></FavoriteBorderIcon>
-      </Link>
-    </IconButton>
-  ) : likedPost(id) ? (
-    <IconButton onClick={() => unlikePost(id)} tip="Unlike" color="primary">
-      <FavoriteIcon></FavoriteIcon>
-    </IconButton>
-  ) : (
-    <IconButton onClick={() => likePost(id)} tip="Like" color="primary">
-      <FavoriteBorderIcon></FavoriteBorderIcon>
-    </IconButton>
-  );
+  const likeButton = <LikeButton postId={id} />;
 
   const deleteButton =
     user.authenticated && user.id === author.id ? <DeletePost postId={id} /> : null;
@@ -84,6 +60,9 @@ const Post = ({
         <Typography variant="body2" color="textSecondary">
           {dayjs(createdAt).fromNow()}
         </Typography>
+        <Typography variant="h6" color="textPrimary">
+          {title}
+        </Typography>
         <Typography variant="body1" color="textSecondary">
           {content}
         </Typography>
@@ -94,6 +73,7 @@ const Post = ({
         </IconButton>
         <span>{comments?.length} comments</span>
         {deleteButton}
+        <PostDialog postId={id} username={user.username} />
       </CardContent>
     </Card>
   );
@@ -110,18 +90,17 @@ Post.propTypes = {
         url: PropTypes.image,
       }),
     }),
+    title: PropTypes.string,
     content: PropTypes.string,
     createdAt: PropTypes.date,
     votes: PropTypes.array,
     comments: PropTypes.array,
   }),
   user: PropTypes.object,
-  likePost: PropTypes.func.isRequired,
-  unlikePost: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps, { likePost, unlikePost })(withStyles(styles)(Post));
+export default connect(mapStateToProps)(withStyles(styles)(Post));

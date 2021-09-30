@@ -1,4 +1,12 @@
-import { LIKE_POST, UNLIKE_POST, SET_POSTS, DELETE_POST, SET_ERRORS, ADD_POST } from '../types';
+import {
+  LIKE_POST,
+  UNLIKE_POST,
+  SET_POSTS,
+  DELETE_POST,
+  SET_ERRORS,
+  ADD_POST,
+  SET_POST,
+} from '../types';
 import axios from 'axios';
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -10,6 +18,15 @@ export const loadingPosts = () => (dispatch) => {
       dispatch({ type: SET_POSTS, payload: data });
     })
     .catch(dispatch({ type: SET_POSTS, payload: [] }));
+};
+
+export const getPost = (postId) => (dispatch) => {
+  return axios
+    .get(`${apiUrl}/posts/${postId}`)
+    .then(({ data }) => {
+      dispatch({ type: SET_POST, payload: data });
+    })
+    .catch(dispatch({ type: SET_POST, payload: [] }));
 };
 
 export const createPost = (newPost) => (dispatch) => {
