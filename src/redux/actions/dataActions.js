@@ -1,4 +1,4 @@
-import { LIKE_POST, UNLIKE_POST, SET_POSTS } from '../types';
+import { LIKE_POST, UNLIKE_POST, SET_POSTS, DELETE_POST } from '../types';
 import axios from 'axios';
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -28,4 +28,10 @@ export const unlikePost = (postId) => (dispatch) => {
       dispatch({ type: UNLIKE_POST, payload: data });
     })
     .catch(console.log);
+};
+
+export const deletePost = (postId) => (dispatch) => {
+  axios.delete(`${apiUrl}/posts/${postId}`).then(() => {
+    dispatch({ type: DELETE_POST, payload: postId });
+  });
 };

@@ -9,5 +9,6 @@ export const LOADING_UI = 'LOADING_UI';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 // Data reducer types
 export const SET_POSTS = 'SET_POSTS';
+export const DELETE_POST = 'DELETE_POST';
 export const LIKE_POST = 'LIKE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import IconButton from '../util/IconButton';
+import DeletePost from '../components/DeletePost';
 
 import { withStyles } from '@material-ui/core/styles';
 import { Card, CardContent, CardMedia, Typography } from '@material-ui/core/';
@@ -16,6 +17,7 @@ import { likePost, unlikePost } from '../redux/actions/dataActions';
 
 const styles = {
   card: {
+    position: 'relative',
     display: 'flex',
     marginBottom: 20,
   },
@@ -60,6 +62,9 @@ const Post = ({
     </IconButton>
   );
 
+  const deleteButton =
+    user.authenticated && user.id === author.id ? <DeletePost postId={id} /> : null;
+
   return (
     <Card className={classes.card}>
       {author?.avatar ? (
@@ -88,6 +93,7 @@ const Post = ({
           <ChatIcon></ChatIcon>
         </IconButton>
         <span>{comments?.length} comments</span>
+        {deleteButton}
       </CardContent>
     </Card>
   );
@@ -98,6 +104,7 @@ Post.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.number.isRequired,
     author: PropTypes.shape({
+      id: PropTypes.number,
       username: PropTypes.string,
       avatar: PropTypes.shape({
         url: PropTypes.image,
