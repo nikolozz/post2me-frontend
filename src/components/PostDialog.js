@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '../util/IconButton';
 import dayjs from 'dayjs';
@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
+import ChatIcon from '@material-ui/icons/Chat';
 
 import { connect } from 'react-redux';
 import { getPost } from '../redux/actions/dataActions';
@@ -45,13 +46,20 @@ const styles = (theme) => ({
 });
 
 const PostDialog = ({ postId, post, classes, getPost }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
   const handleOpenPost = () => {
     setOpen(true);
-    getPost(postId).then(() => setLoading(false));
+    setLoading(true);
   };
+
+  useEffect(() => {
+    if (loading) {
+      getPost(postId);
+      setLoading(false);
+    }
+  }, [post, loading]);
 
   const dialogMarkup = loading ? (
     <CircularProgress size="200" />
@@ -75,8 +83,12 @@ const PostDialog = ({ postId, post, classes, getPost }) => {
         <Typography variant="body1" color="textSecondary">
           {post?.content}
         </Typography>
-        <LikeButton />
+        <LikeButton postId={post?.id} />
         <span>{post?.votes?.length} Likes</span>
+        <IconButton>
+          <ChatIcon />
+        </IconButton>
+        <span>{post?.comments?.length} Comments</span>
       </Grid>
     </Grid>
   );

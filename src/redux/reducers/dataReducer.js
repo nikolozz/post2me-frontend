@@ -16,9 +16,15 @@ export default function (state = initialState, action) {
     case UNLIKE_POST: {
       const { votes } = action.payload;
       const index = state.posts.findIndex((post) => post.id === action.payload.postId);
+      if (state.post.id === action.payload.postId) {
+        const post = state.posts.find((post) => post.id === action.payload.postId);
+        post.votes = [action.payload, ...post.votes];
+        state.post = post;
+      }
       state.posts[index]['votes'] = votes;
       return {
         ...state,
+        post: { ...state.post },
       };
     }
     case DELETE_POST: {
