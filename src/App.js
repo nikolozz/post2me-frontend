@@ -1,8 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import './App.css';
 import themeFile from './util/theme';
+import AuthRoute from './util/AuthRoute';
 //Redux
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -17,8 +19,7 @@ import Navbar from './components/layout/Navbar';
 import home from './pages/home';
 import login from './pages/login';
 import signup from './pages/signup';
-import AuthRoute from './util/AuthRoute';
-import axios from 'axios';
+import user from './pages/user';
 
 const theme = createTheme(themeFile);
 
@@ -46,6 +47,7 @@ const App = () => (
             <Route exact path="/" component={home} />
             <AuthRoute exact path="/login" component={login} />
             <AuthRoute exact path="/signup" component={signup} />
+            <Route exact path="/users/:id" component={user} />
           </Switch>
         </div>
       </Router>

@@ -68,3 +68,20 @@ export const submitComment = (commentData) => async (dispatch) => {
   const comments = await axios.get(`${apiUrl}/comments/${data.post.id}`);
   dispatch({ type: SUBMIT_COMMENT, payload: comments.data });
 };
+
+export const getUserData = (id) => (dispatch) => {
+  return axios
+    .get(`${apiUrl}/users/${id}`)
+    .then(({ data }) => {
+      dispatch({
+        type: SET_POSTS,
+        payload: data.posts,
+      });
+    })
+    .catch(() =>
+      dispatch({
+        type: SET_POSTS,
+        payload: [],
+      }),
+    );
+};

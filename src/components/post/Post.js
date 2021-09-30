@@ -49,12 +49,7 @@ const Post = ({
         <div></div>
       )}
       <CardContent className={classes.content}>
-        <Typography
-          variant="h5"
-          component={Link}
-          to={`/users/${author.username}`}
-          color="secondary"
-        >
+        <Typography variant="h5" component={Link} to={`/users/${author.id}`} color="secondary">
           {author.username}
         </Typography>
         <Typography variant="body2" color="textSecondary">
