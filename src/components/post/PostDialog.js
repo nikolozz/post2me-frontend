@@ -42,9 +42,10 @@ const styles = (theme) => ({
   },
 });
 
-const PostDialog = ({ postId, post, classes, getPost }) => {
+const PostDialog = ({ postId, post, classes, getPost, openDialog }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openDialogState, setOpenDialogState] = useState(openDialog);
 
   const handleOpenPost = () => {
     setOpen(true);
@@ -52,45 +53,60 @@ const PostDialog = ({ postId, post, classes, getPost }) => {
   };
 
   useEffect(() => {
+    if (openDialogState) {
+      setOpen(true);
+      getPost(postId);
+      setOpenDialogState(false);
+    }
     if (loading) {
       getPost(postId);
       setLoading(false);
     }
   }, [post, loading]);
 
-  const dialogMarkup = loading ? (
-    <CircularProgress size="200" />
-  ) : (
-    <Grid container spacing={16}>
-      <Grid item sm={5}>
-        <img src={post?.author?.avatar?.url} alt="Profile image" className={classes.profileImage} />
+  const dialogMarkup =
+    post && post.id ? (
+      <Grid container spacing={10}>
+        <Grid item sm={5}>
+          <img
+            src={post?.author?.avatar?.url}
+            alt="Profile image"
+            className={classes.profileImage}
+          />
+        </Grid>
+        <Grid item sm={7}>
+          <Typography
+            component={Link}
+            color="primary"
+            variant="h5"
+            to={`/users/${post?.author?.id}`}
+          >
+            @{post?.author?.username}
+          </Typography>
+          <hr className={classes.invisibleSeparator} />
+          <Typography variant="body2" color="textSecondary">
+            {dayjs(post?.createdAt).format('h:mm a, MMMM DD YYYY')}
+          </Typography>
+          <hr className={classes.invisibleSeparator} />
+          <Typography variant="h6" color="textPrimary">
+            {post?.title}
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
+            {post?.content}
+          </Typography>
+          <LikeButton postId={post?.id} />
+          <span>{post?.votes?.length} Likes</span>
+          <IconButton>
+            <ChatIcon />
+          </IconButton>
+          <span>{post?.comments?.length} Comments</span>
+          <hr className={classes.visibleSeparator} />
+          {post?.comments && <Comments comments={post.comments} postId={post.id} />}
+        </Grid>
       </Grid>
-      <Grid item sm={7}>
-        <Typography component={Link} color="primary" variant="h5" to={`/users/${post?.author?.id}`}>
-          @{post?.author?.username}
-        </Typography>
-        <hr className={classes.invisibleSeparator} />
-        <Typography variant="body2" color="textSecondary">
-          {dayjs(post?.createdAt).format('h:mm a, MMMM DD YYYY')}
-        </Typography>
-        <hr className={classes.invisibleSeparator} />
-        <Typography variant="h6" color="textPrimary">
-          {post?.title}
-        </Typography>
-        <Typography variant="body1" color="textSecondary">
-          {post?.content}
-        </Typography>
-        <LikeButton postId={post?.id} />
-        <span>{post?.votes?.length} Likes</span>
-        <IconButton>
-          <ChatIcon />
-        </IconButton>
-        <span>{post?.comments?.length} Comments</span>
-        <hr classNam={classes.visibleSeparator} />
-        {post?.comments && <Comments comments={post.comments} postId={post.id} />}
-      </Grid>
-    </Grid>
-  );
+    ) : (
+      <CircularProgress size="200" />
+    );
 
   return (
     <Fragment>
@@ -117,6 +133,7 @@ PostDialog.propTypes = {
   username: PropTypes.string.isRequired,
   post: PropTypes.object.isRequired,
   classes: PropTypes.object,
+  openDialog: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({

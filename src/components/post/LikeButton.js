@@ -17,7 +17,7 @@ const LikeButton = ({ likePost, unlikePost, user, postId }) => {
     return user.votes.find((like) => like.post.id === postId);
   };
 
-  return !user.authenticated ? (
+  return !user.authenticated && postId ? (
     <Link to="/login">
       <IconButton tip="like">
         <FavoriteBorderIcon></FavoriteBorderIcon>
@@ -36,7 +36,7 @@ const LikeButton = ({ likePost, unlikePost, user, postId }) => {
 
 LikeButton.propTypes = {
   user: PropTypes.object.isRequired,
-  postId: PropTypes.string.isRequired,
+  postId: PropTypes.number.isRequired,
   likePost: PropTypes.func.isRequired,
   unlikePost: PropTypes.func.isRequired,
 };

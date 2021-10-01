@@ -26,7 +26,7 @@ export default function (state = initialState, action) {
       const index = state.posts.findIndex((post) => post.id === action.payload.postId);
       if (state.post.id === action.payload.postId) {
         const post = state.posts.find((post) => post.id === action.payload.postId);
-        post.votes = [action.payload, ...post.votes];
+        post.votes = [action.payload.votes];
         state.post = post;
       }
       state.posts[index]['votes'] = votes;
@@ -49,6 +49,7 @@ export default function (state = initialState, action) {
       };
     }
     case SET_POST:
+      if (!action.payload) return;
       return {
         ...state,
         post: action.payload,

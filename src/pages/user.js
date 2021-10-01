@@ -14,6 +14,7 @@ const user = ({ match, data: { posts }, getUserData }) => {
   const [profile, setProfile] = useState(null);
 
   const id = match.params.id;
+  const postId = match.params.postId;
 
   useEffect(() => {
     if (loading) {
@@ -23,15 +24,14 @@ const user = ({ match, data: { posts }, getUserData }) => {
         .then(({ data }) => setProfile(data))
         .then(setLoading(false));
     }
-  }, [posts]);
+  }, []);
 
-  const recentPostsMarkup = posts ? (
-    posts.map((post) => <Post key={post.id} post={post}></Post>)
-  ) : posts === null ? (
-    <p>No posts yet.</p>
-  ) : (
-    <p>Loading...</p>
-  );
+  const recentPostsMarkup =
+    posts?.length >= 1 ? (
+      posts.map((post) => <Post key={post.id} post={post} openDialog={post.id !== postId} />)
+    ) : (
+      <p>Loading</p>
+    );
 
   return (
     <div>

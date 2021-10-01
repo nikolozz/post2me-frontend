@@ -48,6 +48,7 @@ const App = () => (
             <AuthRoute exact path="/login" component={login} />
             <AuthRoute exact path="/signup" component={signup} />
             <Route exact path="/users/:id" component={user} />
+            <Route exact path="/users/:id/posts/:postId" component={user} />
           </Switch>
         </div>
       </Router>

@@ -33,6 +33,7 @@ const Post = ({
   classes,
   post: { id, author, title, content, createdAt, votes, comments },
   user,
+  openDialog,
 }) => {
   dayjs.extend(relativeTime);
 
@@ -68,7 +69,7 @@ const Post = ({
         </IconButton>
         <span>{comments?.length} comments</span>
         {deleteButton}
-        <PostDialog postId={id} username={user.username} />
+        <PostDialog postId={id} username={user.username} openDialog={openDialog} />
       </CardContent>
     </Card>
   );
@@ -92,6 +93,7 @@ Post.propTypes = {
     comments: PropTypes.array,
   }),
   user: PropTypes.object,
+  openDialog: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
