@@ -62,7 +62,7 @@ const PostDialog = ({ postId, post, classes, getPost, openDialog }) => {
       getPost(postId);
       setLoading(false);
     }
-  }, [post, loading]);
+  }, [loading]);
 
   const dialogMarkup =
     post && post.id ? (

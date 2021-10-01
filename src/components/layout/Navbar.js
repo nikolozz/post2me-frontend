@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import IconButton from '../../util/IconButton';
 import AddPost from '../post/AddPost';
+import Notifications from './Notifications';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import HomeIcon from '@material-ui/icons/Home';
-import NotificationIcon from '@material-ui/icons/Notifications';
 
 import { connect } from 'react-redux';
 
@@ -24,9 +24,7 @@ const Navbar = ({ authenticated }) => {
                 <HomeIcon color="primary" />
               </IconButton>
             </Link>
-            <IconButton tip="Notifications">
-              <NotificationIcon color="primary" />
-            </IconButton>
+            <Notifications />
           </Fragment>
         ) : (
           <Fragment>

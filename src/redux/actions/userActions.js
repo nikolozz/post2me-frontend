@@ -5,13 +5,16 @@ import {
   CLEAR_ERRORS,
   LOADING_UI,
   LOADING_USER,
+  MARK_NOTIFICATIONS_VIEWED,
 } from '../types';
 import axios from 'axios';
+
+const apiUrl = process.env.REACT_APP_API_URL;
 
 export const getUserData = () => (dispatch) => {
   dispatch({ type: LOADING_USER });
   axios
-    .get(`${process.env.REACT_APP_API_URL}/authenticate`)
+    .get(`${apiUrl}/authenticate`)
     .then((res) => {
       dispatch({ type: SET_USER, payload: res.data });
     })
@@ -21,7 +24,7 @@ export const getUserData = () => (dispatch) => {
 export const loginUser = (userData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
-    .post(`${process.env.REACT_APP_API_URL}/login`, userData)
+    .post(`${apiUrl}/login`, userData)
     .then((res) => {
       const bearerToken = `Bearer ${res.headers['authentication']}`;
       localStorage.setItem('authentication', bearerToken);
@@ -36,7 +39,7 @@ export const loginUser = (userData, history) => (dispatch) => {
 export const signupUser = (userData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
-    .post(`${process.env.REACT_APP_API_URL}/register`, userData)
+    .post(`${apiUrl}/register`, userData)
     .then(() => {
       history.push('/login');
       dispatch({ type: CLEAR_ERRORS });
@@ -53,7 +56,7 @@ export const logoutUser = () => (dispatch) => {
 export const uploadImage = (formData) => (dispatch) => {
   dispatch({ type: LOADING_USER });
   axios
-    .post(`${process.env.REACT_APP_API_URL}/users/add-avatar`, formData)
+    .post(`${apiUrl}/users/add-avatar`, formData)
     .then(() => dispatch(getUserData()))
     .catch((err) => dispatch({ type: SET_ERRORS, payload: err }));
 };
@@ -61,7 +64,13 @@ export const uploadImage = (formData) => (dispatch) => {
 export const editUserDetails = (userDetails) => (dispatch) => {
   dispatch({ type: LOADING_USER });
   axios
-    .patch(`${process.env.REACT_APP_API_URL}/users`, userDetails)
+    .patch(`${apiUrl}/users`, userDetails)
     .then(() => dispatch(getUserData()))
     .catch(console.log);
+};
+
+export const markNotificationsRead = () => (dispatch) => {
+  axios
+    .get(`${apiUrl}/notifications/mark`)
+    .then(() => dispatch({ type: MARK_NOTIFICATIONS_VIEWED }));
 };

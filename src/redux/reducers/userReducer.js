@@ -5,6 +5,7 @@ import {
   LOADING_USER,
   LIKE_POST,
   UNLIKE_POST,
+  MARK_NOTIFICATIONS_VIEWED,
 } from '../types';
 
 const initialState = {
@@ -46,6 +47,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         votes: state.votes.filter((like) => like.post.id !== action.payload.postId),
+      };
+    case MARK_NOTIFICATIONS_VIEWED:
+      state.notifications.forEach((notification) => (notification.isViewed = true));
+      return {
+        ...state,
       };
     default:
       return state;
