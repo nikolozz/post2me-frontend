@@ -18,8 +18,8 @@ const Notifications = ({ user: { id, notifications }, markNotificationsRead }) =
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleOpen = (e) => {
-    setAnchorEl(e.target);
+  const handleOpen = () => {
+    setAnchorEl(document.getElementById('notification-btn'));
     onMenuOpened();
   };
 
@@ -82,6 +82,7 @@ const Notifications = ({ user: { id, notifications }, markNotificationsRead }) =
           aria-owns={anchorEl ? 'simple-menu' : undefined}
           aria-haspop="true"
           onClick={(e) => handleOpen(e)}
+          id="notification-btn"
         >
           {notificationIcon}
         </IconButton>

@@ -20,14 +20,14 @@ const Comments = ({ comments, postId, classes }) => {
           const {
             content,
             createdAt,
-            author: { id, avatar, username },
+            author: { id, avatar = { url: null }, username },
           } = comment;
           return (
             <Fragment key={createdAt}>
               <Grid item sm={12}>
                 <Grid container>
                   <Grid item sm={2}>
-                    <img src={avatar.url} alt="comment" className={classes.commentImage} />
+                    <img src={avatar?.url} alt="comment" className={classes.commentImage} />
                   </Grid>
                   <Grid item sm={9}>
                     <div className={classes.commentData}>
